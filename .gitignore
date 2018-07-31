@@ -1,1 +1,4 @@
 .py36/
+*__pycache__
+db.sqlite3
+
