@@ -31,3 +31,4 @@ def DictResponse(callback: Callable) -> Callable:  # pylint: disable=C0103
         return resp
 
     return wrapper
+

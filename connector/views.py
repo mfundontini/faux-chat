@@ -20,8 +20,26 @@ def list_channels(request: HttpRequest) -> dict:  # pylint: disable=W0613
     return mock_dict
 
 
-def get_channel():
-    pass
+@DictResponse
+def get_channel(request: HttpRequest, cid: str) -> dict:
+    '''
+    Returns config for emulated Junebug cid channel
+    '''
+    chn = mock_channels.get(cid)
+    return {
+        'status': 200,
+        'code': 'OK',
+        'description': 'channel found',
+        'result': {
+            'label': chn['label'],
+            'type': chn['type'],
+            'mo_url': chn['mo_url'],
+            'id': cid,
+            'config': chn['config'],
+            'metadata': chn['metadata'],
+            'view_url': chn['view_url'],
+        }
+    }
 
 
 def send_message():
