@@ -63,7 +63,7 @@ mock_channels = {
         "label": "liberty-ngrok",
         "type": "feersum-0.9",
         "id": "7e219f28-9631-11e8-9eb6-529269fb1459",
-        "mo_url": "http://6a799a10.ngrok.io/connector/channel/message",
+        "mo_url": "http://dev.feersum.io/channel/message",
         "config": {
             "outbound_url": "http://6a799a10.ngrok.io/connector/messages",
             "access_token": "7e219f28-9631-11e8-9eb6-529269fb1459"

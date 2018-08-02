@@ -1,5 +1,7 @@
+import requests
+
 from uuid import uuid4
-from json import dumps
+from json import dumps, loads
 
 from django.http import HttpRequest
 from django.utils import timezone
@@ -91,5 +93,46 @@ def receive_message(request: HttpRequest, cid: str) -> dict:
     }
 
 
-def chat_send():
-    pass
+@DictPostResponse
+def chat_send(request: HttpRequest, cid: str) -> dict:
+    '''
+    Send chat message
+    '''
+
+    channel = mock_channels.get(cid)
+    channel_data = {
+        'session_event': 'resume',
+    }  # type: dict
+
+    data = request.json.get('data', {})
+    if data:
+        if channel['type'] == 'facebook':
+            channel_data['messenger'] = loads(data['payload'])
+        elif channel['type'] == 'telegram':
+            channel_data['telegram'] = {
+                'reply': data['payload']
+            }
+        content = data.get('title', '')
+    else:
+        content = request.json.get('content', '')
+
+    # record_messages(request, cid, [{'user': True, 'content': content}])
+
+    requests.post(
+        channel['mo_url'],
+        json={
+            'channel_data': channel_data,
+            'from': request.json['address'],
+            'channel_id': channel['id'],
+            'timestamp': str(timezone.now()),
+            'content': request.json['content'],
+            'to': channel['id'],
+            'reply_to': None,
+            'message_id': str(uuid4())
+        }
+    )
+
+    return {
+        'status': 'ok'
+    }
+
