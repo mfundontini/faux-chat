@@ -59,4 +59,18 @@ mock_channels = {
         },
         "view_url": "connector/chat/7ee7a744-0789-4d76-bd6f-f2859f47a813"
     },
+    "7e219f28-9631-11e8-9eb6-529269fb1459": {
+        "label": "liberty-ngrok",
+        "type": "feersum_09",
+        "id": "7e219f28-9631-11e8-9eb6-529269fb1459",
+        "mo_url": "http://12893a5b.ngrok.io/connector/channel/message",
+        "config": {
+            "outbound_url": "http://12893a5b.ngrok.io/connector/messages",
+            "access_token": "7e219f28-9631-11e8-9eb6-529269fb1459"
+        },
+        "metadata": {
+            "aspect": "",
+            "message_id": True
+        },
+    },
 }
