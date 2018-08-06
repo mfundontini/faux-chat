@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="row"  >
+        <div id="preview-container" class="col-sm-6" hidden>
+            <input type="button" id="hide-preview" class="btn-primary" value="Hide Preview" />
+            <hr >
+            <div id="title-preview" ></div>
+            <br /><br />
+            <div id="content-preview" ></div>
+            <br />
+            <hr >
+        </div>
+
+        <div id="edit-container" class="col-sm-6">
+            <input type="button" id="show-preview" class="btn-primary" value="Show Preview" />
+            <hr >
+            <form method="POST" enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                    {{form.as_p}}
+                <input type="submit" value="Create Post"/>
+            </form>
+        </div>
+    </div>
+</body>

@@ -21,4 +21,5 @@ from connector import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('connector/', include("connector.urls", namespace="connector")),
+    path('chat/', include("chat.urls", namespace="chat")),
 ]
