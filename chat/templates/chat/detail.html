@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h2>{{ chat.title }}</h2>
-    <p>{{ chat.content }}</p>
-    <p>{{ chat.uid }}</p>
-    <p>{{ chat.send_to }}</p>
-    <p>{{ chat.timestamp }}</p>
-    <p>{{ chat.channel }}</p>
-    <p>{{ chat.address }}</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="detail-section">
+                <h2 class="text-center">{{ chat.title }}</h2>
+                <div class="text-center">
+                    <p>{{ chat.content }}</p>
+                    <p>{{ chat.timestamp }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

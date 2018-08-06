@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% for instance in chats %}
-        <h2>{{ instance.title }}</h2>
-        <p>{{ instance.content }}</p>
-        <p>{{ instance.uid }}</p>
-    {% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="message-section">
+                {% for instance in chats %}
+                    <hr >
+                    <a href="{% url 'chat:detail'  instance.uid %}"><h2 class="text-center">{{ instance.title }}</h2></a>
+                    <div class="text-center">
+                        <p>{{ instance.content }}</p>
+                        <p>{{ instance.timestamp }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{%  endblock %}

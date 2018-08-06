@@ -25,7 +25,7 @@ SECRET_KEY = 'd)=*fb=ti07!6p6aq506d&xhl%j1^&@jlus(-9=8de&(wv5o1%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'c7b296ca.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'project.context_processors.get_channels',
             ],
         },
     },
@@ -127,3 +128,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+CRISPY_TEMPLATE_PACK = "bootstrap4"

@@ -1,7 +1,7 @@
 import requests
 
 from uuid import uuid4
-from json import dumps, loads
+from ujson import dumps, loads
 
 from django.http import HttpRequest
 from django.utils import timezone
@@ -65,23 +65,9 @@ def receive_message(request: HttpRequest, cid: str) -> dict:
         pass
 
     else:  # pragma: nocoverage
-        data = {'content': dumps(request.json)}
+        data = {'content': request.json}
+        print(data)
 
-    # Replace unicode emojis
-    if 'list' in data:
-        for ldat in data['list']:
-            escape_message(ldat)
-    elif 'carousel' in data:
-        for ldat in data['carousel']:
-            escape_message(ldat)
-    else:
-        escape_message(data)
-    print(data)
-    print(type(data))
-
-    # queue_message(request.json['to'], data)
-
-    # TODO: Emulate message status
     return {
         'code': 'OK',
         'status': 200,

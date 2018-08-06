@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
-    <div class="row"  >
-        <div id="preview-container" class="col-sm-6" hidden>
-            <input type="button" id="hide-preview" class="btn-primary" value="Hide Preview" />
-            <hr >
-            <div id="title-preview" ></div>
-            <br /><br />
-            <div id="content-preview" ></div>
-            <br />
-            <hr >
-        </div>
 
-        <div id="edit-container" class="col-sm-6">
-            <input type="button" id="show-preview" class="btn-primary" value="Show Preview" />
-            <hr >
-            <form method="POST" enctype="multipart/form-data" action="">
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="form-section">
+                <form method="POST" enctype="multipart/form-data" action="">
                 {% csrf_token %}
                     {{form|crispy}}
-                <input type="submit" value="Create Post"/>
-            </form>
+                <input type="submit" value="send chat"/>
+                </form>
+            </div>
+            <div class="message-section">
+                {% for instance in chats %}
+                    <hr >
+                        <a href="{% url 'chat:detail'  instance.uid %}"><h2 class="text-center">{{ instance.title }}</h2></a>
+                        <div class="text-center">
+                            <p>{{ instance.content }}</p>
+                            <p>{{ instance.timestamp }}</p>
+                        </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</body>
+{% endblock %}
+

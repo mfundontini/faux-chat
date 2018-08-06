@@ -1,5 +1,6 @@
 from json import dumps, loads
 import html
+import requests
 
 from functools import wraps
 from typing import Any, Callable
@@ -74,6 +75,32 @@ def DictPostResponse(callback: Callable) -> Callable:  # pylint: disable=C0103
         return resp
 
     return wrapper
+
+
+def post_to_feersum(data: dict, instance: Any):
+    url = data["mo_url"]
+    channel = data["id"]
+
+    try:
+        res = requests.post(
+            url=url,
+            json={
+                'channel_data': {
+                    'session_event': 'resume'
+                },
+                'from': instance.address,
+                'channel_id': channel,
+                'timestamp': str(instance.timestamp),
+                'content': instance.content,
+                'to': channel,
+                'reply_to': None,
+                'message_id': instance.uid
+            }
+        )
+    except Exception as ex:
+        print(str(ex))
+    else:
+        print(f"INFO: Sent to: {url} with status code: {res.status_code} - {res.reason}")
 
 
 def escape_message(dat: dict) -> None:
