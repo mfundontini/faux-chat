@@ -4,64 +4,47 @@ from json import dumps, loads
 
 from django.http import Http404, HttpRequest, HttpResponseRedirect
 from django.urls import reverse
+from django.views.generic import ListView, DetailView, View
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Chat
-from .forms import ChatCreateForm
+from .forms import CreateChatForm
 from connector.consts import USER, CHANNEL, MOCK_CHANNELS
 
 
-def thread(request):
-    chats = Chat.objects.all()
-    return render(request, "thread.html", {"chats": chats})
+class ViewThreads(ListView):
+    model = Chat
+    context_object_name = "chats"
+    template_name = "thread.html"
 
 
-def create(request):
-    form = ChatCreateForm()
-    context = {
-        "form": form
+class CreateChatView(View):
+    form_class = CreateChatForm
+
+    initial = {
+        "address": USER,
+        "channel": CHANNEL,
+        "send_to": CHANNEL,
+        "uid": str(uuid4())
     }
-    channel = MOCK_CHANNELS.get(CHANNEL)
+    template_name = 'create.html'
 
-    if request.method == "POST":
-        form = ChatCreateForm(request.POST)
-        context["form"] = form
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.uid = str(uuid4())
-            instance.channel = CHANNEL
-            instance.address = USER
-            instance.send_to = CHANNEL
+            instance = Chat(**form.cleaned_data)
             instance.save()
-
-            # try:
-            res = requests.post(
-                channel["mo_url"],
-                json={
-                    'channel_data': {
-                        'session_event': 'resume'
-                    },
-                    'from': instance.address,
-                    'channel_id': CHANNEL,
-                    'timestamp': str(instance.timestamp),
-                    'content': instance.content,
-                    'to': CHANNEL,
-                    'reply_to': None,
-                    'message_id': instance.uid
-                }
-            )
-            # except
-            # finally:
-            print(res.status_code, res.reason)
-
             return redirect(instance.get_absolute_url())
-        else:
-            return render(request, "create.html", context)
 
-    return render(request, "create.html", context)
+        return render(request, self.template_name, {'form': form})
 
 
-def detail(request, uid):
-    instance = get_object_or_404(Chat, uid=uid)
-    return render(request, "detail.html", {"chat": instance})
+class MessageDetailView(DetailView):
+    model = Chat
+    pk_url_kwarg = "uid"
+    context_object_name = "chat"
+    template_name = "detail.html"

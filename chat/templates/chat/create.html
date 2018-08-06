@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+{% load crispy_forms_tags %}
     <div class="row"  >
         <div id="preview-container" class="col-sm-6" hidden>
             <input type="button" id="hide-preview" class="btn-primary" value="Hide Preview" />
@@ -21,7 +22,7 @@
             <hr >
             <form method="POST" enctype="multipart/form-data" action="">
                 {% csrf_token %}
-                    {{form.as_p}}
+                    {{form|crispy}}
                 <input type="submit" value="Create Post"/>
             </form>
         </div>
