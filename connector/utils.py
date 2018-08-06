@@ -1,4 +1,5 @@
 from json import dumps, loads
+from uuid import uuid4
 import html
 import requests
 
@@ -9,6 +10,9 @@ from django.http import HttpRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from emoji import Emoji  #
+
+from chat.models import Chat
+from connector.consts import CHANNEL
 
 
 def DictResponse(callback: Callable) -> Callable:  # pylint: disable=C0103
@@ -130,3 +134,25 @@ def escape_message(dat: dict) -> None:
             btn['title'] = Emoji.replace_unicode(html.escape(btn['title']))
         except KeyError:  # pragma: nocoverage
             pass
+
+
+def save_feersum_message(data: dict):
+    pages = data.get('content', {}).get('channel_data', {}).get('pages', [])
+
+    if pages:
+        for page in pages:
+            title = page.get('title')
+            content = page['text']
+            if page.get('buttons'):
+                for btn in page.get('buttons'):
+                    content += f"\n{btn.get('text')}"
+            obj = {
+                "title": title,
+                "content": content,
+                "send_to": CHANNEL,
+                "address": "Feersum",
+                "channel": CHANNEL,
+                "uid": str(uuid4())
+            }
+            instance = Chat(**obj)
+            instance.save()

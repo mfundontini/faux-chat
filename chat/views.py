@@ -38,6 +38,7 @@ class CreateChatView(View):
         if form.is_valid():
             instance = Chat(**form.cleaned_data)
             instance.save()
+            ("--------------------------------saved request--------------------------------")
 
             post_to_feersum(MOCK_CHANNELS.get(CHANNEL), instance)
             return redirect(instance.get_absolute_url())

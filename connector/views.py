@@ -7,8 +7,7 @@ from django.http import HttpRequest
 from django.utils import timezone
 
 from connector.consts import MOCK_CHANNELS
-from connector.utils import DictResponse, DictPostResponse, escape_message
-
+from connector.utils import DictResponse, DictPostResponse, save_feersum_message
 
 @DictResponse
 def list_channels(request: HttpRequest) -> dict:  # pylint: disable=W0613
@@ -66,7 +65,7 @@ def receive_message(request: HttpRequest, cid: str) -> dict:
 
     else:  # pragma: nocoverage
         data = {'content': request.json}
-        print(data)
+        save_feersum_message(data)
 
     return {
         'code': 'OK',
