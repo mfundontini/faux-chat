@@ -5,9 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-    {% for instance in instances %}
+    {% for instance in chats %}
         <h2>{{ instance.title }}</h2>
         <p>{{ instance.content }}</p>
+        <p>{{ instance.uid }}</p>
     {% endfor %}
 </body>
 </html>

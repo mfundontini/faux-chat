@@ -1,4 +1,4 @@
-mock_channels = {
+MOCK_CHANNELS = {
     "01c95729-0ec8-4a1a-beaf-321c117c9de0": {
         "label": "faux-channel1",
         "type": "feersum-0.9",
@@ -63,9 +63,9 @@ mock_channels = {
         "label": "liberty-ngrok",
         "type": "feersum-0.9",
         "id": "7e219f28-9631-11e8-9eb6-529269fb1459",
-        "mo_url": "http://dev.feersum.io/channel/message",
+        "mo_url": "http://localhost:3000/channel/message",
         "config": {
-            "outbound_url": "http://6a799a10.ngrok.io/connector/messages",
+            "outbound_url": "http://c7b296ca.ngrok.io/connector/messages",
             "access_token": "7e219f28-9631-11e8-9eb6-529269fb1459"
         },
         "metadata": {
@@ -74,3 +74,6 @@ mock_channels = {
         },
     },
 }
+
+USER = "146c5586-996b-11e8-9eb6-529269fb1459"
+CHANNEL = "7e219f28-9631-11e8-9eb6-529269fb1459"

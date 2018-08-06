@@ -6,7 +6,7 @@ from json import dumps, loads
 from django.http import HttpRequest
 from django.utils import timezone
 
-from connector.consts import mock_channels
+from connector.consts import MOCK_CHANNELS
 from connector.utils import DictResponse, DictPostResponse, escape_message
 
 
@@ -20,7 +20,7 @@ def list_channels(request: HttpRequest) -> dict:  # pylint: disable=W0613
         'status': 200,
         'code': 'OK',
         'description': 'channels listed',
-        'result': [key for key, value in mock_channels.items()]
+        'result': [key for key, value in MOCK_CHANNELS.items()]
     }
 
     return mock_dict
@@ -31,7 +31,7 @@ def get_channel(request: HttpRequest, cid: str) -> dict:
     '''
     Returns config for the mock channels
     '''
-    chn = mock_channels.get(cid)
+    chn = MOCK_CHANNELS.get(cid)
     return {
         'status': 200,
         'code': 'OK',
@@ -53,7 +53,7 @@ def receive_message(request: HttpRequest, cid: str) -> dict:
     '''
     Receives messages from feersum
     '''
-    channel = mock_channels.get(cid)
+    channel = MOCK_CHANNELS.get(cid)
 
     if channel['type'] in ['plaintext', 'twitter']:
         data = {'content': request.json['content']}
@@ -77,6 +77,7 @@ def receive_message(request: HttpRequest, cid: str) -> dict:
     else:
         escape_message(data)
     print(data)
+    print(type(data))
 
     # queue_message(request.json['to'], data)
 
@@ -99,7 +100,7 @@ def chat_send(request: HttpRequest, cid: str) -> dict:
     Send chat message
     '''
 
-    channel = mock_channels.get(cid)
+    channel = MOCK_CHANNELS.get(cid)
     channel_data = {
         'session_event': 'resume',
     }  # type: dict
