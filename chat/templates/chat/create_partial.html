@@ -1,0 +1,8 @@
+{% block content %}
+    <hr >
+        <a href="{% url 'chat:detail'  instance.uid %}"><h2 class="text-center">{{ instance.title }}</h2></a>
+        <div class="text-center">
+            <p>{{ instance.content }}</p>
+            <p>{{ instance.timestamp }}</p>
+        </div>
+{% endblock %}

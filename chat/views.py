@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Chat
 from .forms import CreateChatForm
+from .mixins import AjaxPostMixin
 from connector.consts import USER, MOCK_CHANNELS, CHANNEL
 from connector.utils import post_to_feersum
 
@@ -17,9 +18,9 @@ class ViewThreads(ListView):
     template_name = "thread.html"
 
 
-class CreateChatView(View):
+class CreateChatView(AjaxPostMixin, View):
     form_class = CreateChatForm
-    chats = Chat.objects.all()
+    partial_template = "create_partial.html"
 
     initial = {
         "address": USER,
@@ -31,17 +32,7 @@ class CreateChatView(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form, 'chats': self.chats})
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            instance = Chat(**form.cleaned_data)
-            instance.save()
-            post_to_feersum(MOCK_CHANNELS.get(CHANNEL), instance)
-            return redirect(instance.get_absolute_url())
-
-        return render(request, self.template_name, {'form': form, 'chats': self.chats})
+        return render(request, self.template_name, {'form': form, 'chats': Chat.objects.all()})
 
 
 class MessageDetailView(DetailView):
