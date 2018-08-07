@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.urls import reverse
 
@@ -16,6 +18,12 @@ class Chat(models.Model):
 
     def get_absolute_url(self):
         return reverse("chat:detail", kwargs={"uid": self.uid})
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.timestamp:
+            self.timestamp = datetime.datetime.now()
+        return super(Chat, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ["-timestamp", ]

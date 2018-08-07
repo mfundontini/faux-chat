@@ -65,7 +65,7 @@ MOCK_CHANNELS = {
         "id": "7e219f28-9631-11e8-9eb6-529269fb1459",
         "mo_url": "http://localhost:3000/channel/message",
         "config": {
-            "outbound_url": "http://c7b296ca.ngrok.io/connector/messages",
+            "outbound_url": "http://fd82c45e.ngrok.io/connector/messages",
             "access_token": "7e219f28-9631-11e8-9eb6-529269fb1459"
         },
         "metadata": {
@@ -75,5 +75,5 @@ MOCK_CHANNELS = {
     },
 }
 
-USER = "156c5586-996b-11e8-9eb6-529269fb1459"
+USER = "156d5586-996b-11f8-9eb6-529269fb1459"
 CHANNEL = "7e219f28-9631-11e8-9eb6-529269fb1459"

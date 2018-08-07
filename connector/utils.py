@@ -141,7 +141,7 @@ def save_feersum_message(data: dict):
 
     if pages:
         for page in pages:
-            title = page.get('title')
+            title = page.get('title', 'No Title')
             content = page['text']
             if page.get('buttons'):
                 for btn in page.get('buttons'):
