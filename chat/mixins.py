@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from connector.consts import MOCK_CHANNELS, CHANNEL
 from connector.utils import post_to_feersum
 from .models import Chat
+from .tasks import async_post_to_feersum
 
 
 class AjaxPostMixin(object):
