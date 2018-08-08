@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'channels',
     'crispy_forms',
 
     'chat',
@@ -78,6 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'connector.wsgi.application'
+ASGI_APPLICATION = 'project.routing.application'
 
 
 # Database
